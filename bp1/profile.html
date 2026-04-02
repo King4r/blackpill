@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | BlackPill Grooming</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 140px auto 80px;
+            padding: 0 20px;
+        }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .profile-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .profile-card {
+            padding: 40px;
+        }
+        .avatar-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .avatar-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rich-gold), var(--muted-gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--jet-black);
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 3px solid var(--rich-gold);
+        }
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .avatar-upload {
+            display: none;
+        }
+        .btn-upload {
+            background: transparent;
+            border: 2px solid var(--rich-gold);
+            color: var(--rich-gold);
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .btn-upload:hover {
+            background: var(--rich-gold);
+            color: var(--jet-black);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        .danger-zone {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(244, 67, 54, 0.2);
+        }
+        .danger-zone h3 {
+            color: #f44336;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+        .btn-danger {
+            background: rgba(244, 67, 54, 0.1);
+            border: 1px solid #f44336;
+            color: #f44336;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .btn-danger:hover {
+            background: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">BlackPill Grooming</a>
+        <div class="nav-links">
+            <a href="course.html">Course</a>
+            <a href="vault.html">Vault</a>
+            <a href="profile.html" class="gold-text">Profile</a>
+            <button class="btn-outline logout-btn" style="padding: 8px 20px; font-size: 0.8rem;">Logout</button>
+        </div>
+        <div class="mobile-menu-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <div id="loginRequired" class="profile-container hidden">
+        <div class="glass-card" style="max-width: 500px; margin: 100px auto; padding: 60px; text-align: center;">
+            <h2>Login Required</h2>
+            <p style="color: rgba(248, 248, 248, 0.7); margin: 20px 0;">Please login to view your profile.</p>
+            <a href="purchase.html" class="btn-gold" style="display: inline-block;">Login</a>
+        </div>
+    </div>
+
+    <div id="profileContent" class="profile-container">
+        <div class="profile-header">
+            <h1>My <span class="gold-text">Profile</span></h1>
+            <p style="color: rgba(248, 248, 248, 0.7);">Manage your account settings</p>
+        </div>
+
+        <div class="profile-card glass-card">
+            <form id="profileForm">
+                <div class="avatar-section">
+                    <div class="avatar-preview" id="avatarPreview">M</div>
+                    <label class="btn-upload">
+                        Change Photo
+                        <input type="file" class="avatar-upload" id="avatarInput" accept="image/*">
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 24px;">
+                    <label for="bio">Bio (optional)</label>
+                    <textarea id="bio" name="bio" rows="3" placeholder="Tell the community about yourself..." style="width: 100%; padding: 14px 16px; background: rgba(26, 26, 26, 0.8); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; color: var(--soft-white); font-size: 1rem; font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
+                </div>
+
+                <button type="submit" class="btn-gold" style="margin-top: 30px; width: 100%;">Save Changes</button>
+            </form>
+
+            <div class="danger-zone">
+                <h3>Account Actions</h3>
+                <button class="btn-danger" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 BlackPill Grooming. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let supabase = null;
+
+        async function initAuth() {
+            try {
+                const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+                const supabaseUrl = 'https://jwybufiryfrqlvojbzto.supabase.co';
+                const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3eWJ1ZmlyeWZycWx2b2pienRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNzg2NzAsImV4cCI6MjA5MDY1NDY3MH0.0V-2UvX6NErA_5otgUIGZuvqeZa56rD2pInqRqW7RlY';
+                return createClient(supabaseUrl, supabaseKey);
+            } catch (e) {
+                console.error('Supabase init error:', e);
+                return null;
+            }
+        }
+
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            supabase = await initAuth();
+
+            if (!supabase) {
+                document.getElementById('loginRequired').classList.remove('hidden');
+                document.getElementById('profileContent').classList.add('hidden');
+                return;
+            }
+
+            const { data: { session } } = await supabase.auth.getSession();
+
+            if (!session?.user) {
+                document.getElementById('loginRequired').classList.remove('hidden');
+                document.getElementById('profileContent').classList.add('hidden');
+                return;
+            }
+
+            currentUser = session.user;
+            loadProfile();
+
+            const avatarInput = document.getElementById('avatarInput');
+            avatarInput.addEventListener('change', handleAvatarUpload);
+
+            document.getElementById('profileForm').addEventListener('submit', saveProfile);
+
+            document.getElementById('logoutBtn').addEventListener('click', async () => {
+                await supabase.auth.signOut();
+                window.location.href = 'index.html';
+            });
+
+            document.querySelector('.logout-btn').addEventListener('click', async () => {
+                await supabase.auth.signOut();
+                window.location.href = 'index.html';
+            });
+        });
+
+        async function loadProfile() {
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', currentUser.id)
+                .single();
+
+            document.getElementById('fullName').value = profile?.full_name || currentUser.user_metadata?.full_name || '';
+            document.getElementById('email').value = currentUser.email;
+            document.getElementById('bio').value = profile?.bio || '';
+
+            const avatarPreview = document.getElementById('avatarPreview');
+            if (profile?.avatar_url) {
+                avatarPreview.innerHTML = `<img src="${profile.avatar_url}" alt="Avatar">`;
+            } else {
+                const name = profile?.full_name || currentUser.email;
+                avatarPreview.textContent = getInitials(name);
+            }
+        }
+
+        function getInitials(name) {
+            if (!name) return 'U';
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+        }
+
+        async function handleAvatarUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const avatarPreview = document.getElementById('avatarPreview');
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                avatarPreview.innerHTML = `<img src="${event.target.result}" alt="Avatar">`;
+            };
+            reader.readAsDataURL(file);
+
+            const fileName = `${currentUser.id}/${Date.now()}.${file.name.split('.').pop()}`;
+            
+            const { error: uploadError } = await supabase.storage
+                .from('avatars')
+                .upload(fileName, file);
+
+            if (uploadError) {
+                console.log('Storage upload skipped:', uploadError.message);
+            }
+        }
+
+        async function saveProfile(e) {
+            e.preventDefault();
+
+            const fullName = document.getElementById('fullName').value;
+            const bio = document.getElementById('bio').value;
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Saving...';
+
+            try {
+                await supabase.auth.updateUser({
+                    data: { full_name: fullName }
+                });
+
+                await supabase.from('profiles').upsert({
+                    id: currentUser.id,
+                    full_name: fullName,
+                    email: currentUser.email,
+                    bio: bio
+                });
+
+                alert('Profile saved successfully!');
+            } catch (err) {
+                alert('Error saving profile: ' + err.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Save Changes';
+            }
+        }
+    </script>
+</body>
+</html>
